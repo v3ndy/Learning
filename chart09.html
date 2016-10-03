@@ -1,0 +1,105 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<title>Page 09</title>
+	<style type="text/css">
+		body {
+			font-family: Verdana, sans-serif;
+		}
+	</style>
+
+</head>
+<body>
+	<h1 align="center">LINE GRAPH CANVAS</h1>
+	<div align="center">
+	<canvas id="myCanvas1" width="800" height="500" style="border:1px solid #000000;"></canvas>
+	</div>
+	<script>
+		function getRandomColor() {
+			var theLetters='0123456789ABCDEF';
+			var theColor='#';
+			for(var i=0;i<6;i++) {
+				theColor += theLetters[Math.floor(Math.random()*16)];
+			}
+			return theColor;
+		}
+
+		var x, y, barwidth, x_text, y_text;
+		x=50; y=450;
+		barwidth=21;
+		x_text=700; y_text=25;
+
+		var c = document.getElementById("myCanvas1");
+		var ctx;
+		ctx = c.getContext("2d");
+		
+		//fillRect(x, y, width, height)
+
+		var vValue=[100, 50, 200, 250, 55, 300, 8, 20, 500, 175, 30, 1, 20, 50, 150, 300, 1000, 500, 800, 210, 320, 1050, 1000, 1001];
+		//var vValue=[1000, 1050, 1200, 1300, 1100, 500];
+		var vBarColor;
+		var vHeight, vDistance;
+		var vTotal=0;
+		var i=0;
+		var vPrev=0;
+		var vPrev_X=0;
+		var vPrev_Y=0;
+		var vDirection="";
+		var y_exp_text;
+		var x_adj;
+
+		for(i=0;i<vValue.length;i++) { vTotal+=vValue[i]; }
+
+		vHeight = 0; vDistance=25; 
+
+		ctx.font = "bold 10px Verdana";
+		ctx.beginPath();
+		ctx.fillText( "Movement:", x_text+8, y_text);
+
+		for(i=0;i<vValue.length;i++) {
+			vHeight = Math.round((vValue[i]/vTotal)*1500);
+			ctx.beginPath();
+			ctx.strokeStyle="#0000FF";
+			if(i==0) { 
+				ctx.moveTo( x+(i*vDistance), (y-vHeight) ); 
+				vPrev=vHeight; 
+				vPrev_X =  x+(i*vDistance);
+				vPrev_Y = (y-vHeight);
+				vDirection="UP"; 
+				ctx.strokeStyle="#00FF00";
+			}
+			else {
+				ctx.moveTo(vPrev_X, vPrev_Y);
+				ctx.lineTo( x+(i*vDistance), (y-vHeight) );
+				if(vPrev<vHeight) { vDirection="UP"; ctx.strokeStyle="#00FF00";}
+				else {vDirection="DOWN"; ctx.strokeStyle="#FF0000";}
+				vPrev=vHeight; 
+				vPrev_X=x+(i*vDistance);
+				vPrev_Y=(y-vHeight);
+			}
+			
+			ctx.arc(x+(i*vDistance), (y-vHeight), 2, 0, 2*Math.PI);
+			ctx.stroke();
+			ctx.closePath();
+
+			ctx.fillStyle="#000000"; 
+			if(vDirection=="UP") {y_exp_text=(y-vHeight)-5;}
+			else { y_exp_text=(y-vHeight)+12; }
+
+			x_adj = ((vValue[i]+"").length *6);
+
+			if(vValue[i]<10) ctx.fillText(vValue[i]+"", x+(i*vDistance)-x_adj, y_exp_text );
+			else if(vValue[i]<100) ctx.fillText(vValue[i]+"", x+(i*vDistance)-x_adj, y_exp_text );
+			else ctx.fillText(vValue[i]+"", x+(i*vDistance)-x_adj, y_exp_text );
+
+			ctx.fillText( (i+1)+". "+vValue[i]+"", x_text+8, y_text+((i+1)*15));
+		}
+
+		ctx.strokeStyle="#C0C0C0"; 
+		ctx.beginPath();
+		ctx.moveTo(20, y); ctx.lineTo(780 , y); 
+		ctx.moveTo(20, y); ctx.lineTo(20 , y-400); ctx.closePath(); ctx.stroke();
+
+	</script>
+</body>
+</html>

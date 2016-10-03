@@ -1,0 +1,93 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<title>Page 06</title>
+	<style type="text/css">
+		body {
+			font-family: Verdana, sans-serif;
+		}
+	</style>
+
+</head>
+<body>
+	<h1 align="center">ARC CANVAS</h1>
+	<div align="center">
+	<canvas id="myCanvas1" width="800" height="500" style="border:1px solid #000000;"></canvas>
+	</div>
+
+	<script>
+		function getRandomColor() {
+			var theLetters='0123456789ABCDEF';
+			var theColor='#';
+			for(var i=0;i<6;i++) {
+				theColor += theLetters[Math.floor(Math.random()*16)];
+			}
+			return theColor;
+		}
+
+		var c = document.getElementById("myCanvas1");
+		var ctx = c.getContext("2d");
+
+		var x, y, r, x_text, y_text, x_canvastext, y_canvastext;
+		x=250; y=250; r=200;
+		x_text=550; y_text=100;
+
+		var vStartDegree=0, vEndDegree=0, vDegree=0, vPrevDegree=0;
+
+		//Sample data
+		var theNumber=[100, 110, 130, 150, 200, 220, 260, 300, 350, 133, 111];
+		var total=0;
+		var i=0;
+		var temp=0;
+
+		for(i=0; i<theNumber.length;i++)
+		{
+			total = total + theNumber[i];
+		}
+
+		var theDegree;
+		var theDegreeColour;
+		var vRunningDegree=0;
+
+		for(i=0;i<theNumber.length;i++)
+		{
+			theDegree = Math.round((theNumber[i]/total)*360);
+			if(i==(theNumber.length)-1) { theDegree=360-vRunningDegree; }
+			vRunningDegree += theDegree;
+
+			theDegreeColour = getRandomColor();
+			vDegree = theDegree;
+			vStartDegree = vEndDegree;
+			vEndDegree=vStartDegree+(vDegree/180*Math.PI);
+
+			//Draw the chart
+			ctx = c.getContext("2d");
+			ctx.beginPath();
+			ctx.moveTo(x, y);
+			ctx.arc(x,y,r, vStartDegree, vEndDegree, false);
+			ctx.closePath();
+			ctx.fillStyle=theDegreeColour;
+			ctx.stroke(); ctx.fill();
+
+			//Draw the color palette of the chart
+			ctx.beginPath();
+			ctx.moveTo(x_text-10, y_text+(i*25)-5);
+			ctx.arc(x_text-10, y_text+(i*25)-5, 10, 0, 2*Math.PI);
+			ctx.closePath();
+			ctx.stroke(); ctx.fill(); 
+
+			//For the text
+			ctx.fillStyle="#000000"; ctx.font="10px Georgia";
+			//Text explanation of the color palette
+			ctx.fillText(theNumber[i]+" - "+theDegreeColour, x_text+8, y_text+(i*25));
+			//Text inside the chart
+			//x_canvastext = x+((r+80)/2*Math.cos((vPrevDegree+(vDegree/2))/180*Math.PI));
+			x_canvastext = x+((r+20)*Math.cos((vPrevDegree+(vDegree/2))/180*Math.PI));
+			//y_canvastext = y+((r+80)/2*Math.sin((vPrevDegree+(vDegree/2))/180*Math.PI));
+			y_canvastext = y+((r+20)*Math.sin((vPrevDegree+(vDegree/2))/180*Math.PI));
+			ctx.fillText(theNumber[i]+"", x_canvastext, y_canvastext);
+			vPrevDegree = vPrevDegree + vDegree;
+		}
+	</script>
+</body>
+</html

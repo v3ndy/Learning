@@ -1,0 +1,105 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<title>Page 07</title>
+	<style type="text/css">
+		body {
+			font-family: Verdana, sans-serif;
+		}
+	</style>
+
+</head>
+<body>
+	<h1 align="center">BAR CANVAS</h1>
+	<div align="center">
+	<canvas id="myCanvas1" width="800" height="500" style="border:1px solid #000000;"></canvas>
+	</div>
+	<script>
+		function getRandomColor() {
+			var theLetters='0123456789ABCDEF';
+			var theColor='#';
+			for(var i=0;i<6;i++) {
+				theColor += theLetters[Math.floor(Math.random()*16)];
+			}
+			return theColor;
+		}
+
+		var x, y, barwidth, x_text, y_text;
+		x=50; y=450;
+		barwidth=21;
+		x_text=650; y_text=50;
+
+		var c = document.getElementById("myCanvas1");
+		var ctx;
+		ctx = c.getContext("2d");
+		ctx.beginPath();
+		ctx.moveTo(x, y);
+
+		//fillRect(x, y, width, height)
+
+		var vValue=[100, 50, 200, 750, 55, 300, 8, 20, 450, 180, 820, 500,110, 1200, 3000];
+		var vBarColor;
+		var vHeight;
+		var vTotal=0;
+		var i=0;
+		var vMax=0;
+		var vHeightDisplayParam=800;
+		
+		for(i=0;i<vValue.length;i++) { 
+			vTotal+=vValue[i]; 
+			if(vValue[i]>vMax) vMax=vValue[i];
+		}
+
+		if(vMax%100>0) { vMax = Math.round(vMax/100)*100; vMax+=100; }
+		else {vMax = Math.round(vMax/100)*100;}
+		
+		/*
+		//Description for Y-Axis
+		for(i=0;i<vMax+1;i+=100) {
+			vHeight = Math.round((i/vTotal)*vHeightDisplayParam);
+			ctx.fillText(i+"", x-40-( (i+"").length ), y-vHeight);
+			ctx.fillText("-", (x/2)+(barwidth/2)-4, y-vHeight);
+		}
+		*/
+
+		ctx.strokeStyle="#000000"; 
+		ctx.moveTo( (x/2)+(barwidth/2), y); ctx.lineTo(x+ 550 , y); ctx.stroke();
+		ctx.moveTo( (x/2)+(barwidth/2), y); ctx.lineTo( (x/2)+(barwidth/2) , y-400); ctx.stroke();
+
+		for(i=0;i<vValue.length;i++) {
+			vHeight = Math.round((vValue[i]/vTotal)*vHeightDisplayParam);
+
+			vBarColor = getRandomColor();
+			ctx.fillStyle=vBarColor; 
+			//The bar
+			ctx.fillRect(x+(i*30), y-vHeight, barwidth, vHeight); 
+			//The color explanation
+			ctx.fillRect(x_text, y_text+(i*25), barwidth, barwidth); 
+			ctx.strokeStyle="#000000"; ctx.lineWidth=1; 
+			ctx.strokeRect(x+(i*30), y-vHeight, barwidth, vHeight); 
+			ctx.strokeRect(x_text, y_text+(i*25), barwidth, barwidth); 
+
+			ctx.fillStyle="#000000"; 
+			//Description above the bar
+			/*
+			if(vValue[i]<10) ctx.fillText(vValue[i]+"", x+(i*30)+8, y-vHeight-10);
+			else if(vValue[i]<100) ctx.fillText(vValue[i]+"", x+(i*30)+4, y-vHeight-10);
+			else ctx.fillText(vValue[i]+"", x+(i*30)+1, y-vHeight-10);
+			*/
+
+			//Description below the x-axis
+			if(vValue[i]<10) ctx.fillText(vValue[i]+"", x+(i*30)+8, y+15);
+			else if(vValue[i]<100) ctx.fillText(vValue[i]+"", x+(i*30)+4, y+15);
+			else ctx.fillText(vValue[i]+"", x+(i*30)+1, y+15);
+
+			//ctx.fillText(vValue[i]+"/"+vTotal+"*"+vMax+"="+vHeight, x_text+barwidth+8, y_text+(i*25)+15);
+			ctx.fillText(vValue[i]+"", x_text+barwidth+8, y_text+(i*25)+15);
+		}
+
+		ctx.font = "bold 24px Arial";
+		ctx.fillText("Total value / record number = "+vTotal+"/"+(vValue.length)+" = "+(vTotal/(vValue.length)),10,30);
+
+
+	</script>
+</body>
+</html>

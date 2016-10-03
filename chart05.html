@@ -1,0 +1,48 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<title>Page 05</title>
+	<style type="text/css">
+		body {
+			font-family: Verdana, sans-serif;
+		}
+	</style>
+
+</head>
+<body>
+	<h1 align="center">CANVAS</h1>
+	<div align="center">
+	<canvas id="myCanvas1" width="800" height="500" style="border:1px solid #000000;"></canvas>
+	</div>
+
+	<script>
+		var c = document.getElementById("myCanvas1");
+		var ctx = c.getContext("2d");
+
+		var x, y, r;
+		x=400; y=250; r=200;
+
+		var vStartDegree=0, vEndDegree=0, vDegree=0, vPrevDegree=0;
+		var theDegree=[30, 60, 90, 180];
+		var theDegreeColour=["#FF0000","#00FF00","#00AAFF","#C0C0C0"];
+
+		for(var i=0;i<theDegree.length;i++)
+		{
+			ctx = c.getContext("2d");
+			ctx.beginPath();
+			ctx.moveTo(x, y);
+			vDegree = theDegree[i];
+			vStartDegree = vEndDegree;
+			vEndDegree=vStartDegree+(vDegree/180*Math.PI);
+			ctx.arc(x,y,r, vStartDegree, vEndDegree, false);
+			ctx.closePath();
+			ctx.fillStyle=theDegreeColour[i];
+			ctx.fill();
+			ctx.fillStyle="#000000";
+			ctx.font="12px Georgia";
+			ctx.fillText(vDegree+"", x+(r/2*Math.cos((vPrevDegree+(vDegree/2))/180*Math.PI)), y+(r/2*Math.sin((vPrevDegree+(vDegree/2))/180*Math.PI)));
+			vPrevDegree = vPrevDegree + vDegree;
+		}
+	</script>
+</body>
+</html

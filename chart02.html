@@ -1,0 +1,86 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<title>Page 02</title>
+	<style type="text/css">
+		body {
+			font-family: Verdana, sans-serif;
+		}
+	</style>
+
+</head>
+<body>
+	<h1 align="center">CANVAS</h1>
+	<!-- Source: http://www.w3schools.com/html/html5_canvas.asp -->
+	<canvas id="myCanvas1" width="200" height="100" style="border:1px solid #000000;"></canvas>
+
+	<canvas id="myCanvas2" width="200" height="100" style="border:1px solid #000000;"></canvas>
+
+	<canvas id="myCanvas3" width="200" height="100" style="border:1px solid #000000;"></canvas>
+
+	<canvas id="myCanvas4" width="200" height="100" style="border:1px solid #000000;"></canvas>
+
+	<canvas id="myCanvas5" width="200" height="100" style="border:1px solid #000000;"></canvas>
+
+	<canvas id="myCanvas6" width="200" height="100" style="border:1px solid #000000;"></canvas>
+
+	<br/><br/>
+
+	<img id="scream" src="img_the_scream.jpg" alt="The Scream" width="220" height="277"> 
+
+	<canvas id="myCanvas7" width="250" height="300" style="border:1px solid #000000;"></canvas> <p><button onclick="fillImage();">Try</p>
+
+	<script>
+		var c = document.getElementById("myCanvas1");
+		var ctx = c.getContext("2d");
+		ctx.moveTo(0,0);
+		ctx.lineTo(200,100);
+		ctx.stroke();
+
+		c = document.getElementById("myCanvas2");
+		ctx = c.getContext("2d");
+		ctx.beginPath();
+		ctx.arc(95,50,40,0,2*Math.PI);
+		ctx.stroke();
+
+		c = document.getElementById("myCanvas3");
+		ctx = c.getContext("2d");
+		ctx.font = "30px Arial";
+		ctx.fillText("Hello World",10,50);
+
+		c = document.getElementById("myCanvas4");
+		ctx = c.getContext("2d");
+		ctx.font = "30px Arial";
+		ctx.strokeText("Hello World",10,50);
+
+		c = document.getElementById("myCanvas5");
+		ctx = c.getContext("2d");
+		//Create gradient
+		var grd = ctx.createLinearGradient(0, 0, 200, 0);
+		grd.addColorStop(0,"red");
+		grd.addColorStop(1,"white");
+		//Fill with gradient
+		ctx.fillStyle=grd;
+		ctx.fillRect(10,10,150,80);
+
+		c = document.getElementById("myCanvas6");
+		ctx = c.getContext("2d");
+		//Create gradient
+		grd = ctx.createRadialGradient(75,50,5,90,60,100);
+		grd.addColorStop(0,"red");
+		grd.addColorStop(1,"white");
+		//Fill with gradient
+		ctx.fillStyle=grd;
+		ctx.fillRect(10,10,150,80);
+
+		function fillImage() {
+			var c = document.getElementById("myCanvas7");
+			var ctx = c.getContext("2d");
+			var img = document.getElementById("scream");
+			ctx.drawImage(img,10,10);
+		}
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html5>
+<html>
+<head>
+	<title>Page 10</title>
+	<style type="text/css">
+		body {
+			font-family: Verdana, sans-serif;
+		}
+	</style>
+
+</head>
+<body>
+	<h1 align="center">BAR CANVAS</h1>
+	<div align="center">
+	<canvas id="myCanvas1" width="800" height="500" style="border:1px solid #000000;"></canvas>
+	</div>
+	<script>
+		function getRandomColor() {
+			var theLetters='0123456789ABCDEF';
+			var theColor='#';
+			for(var i=0;i<6;i++) {
+				theColor += theLetters[Math.floor(Math.random()*16)];
+			}
+			return theColor;
+		}
+
+		var x, y, x_text, y_text, vSpace, vTextAdjustment;
+		x=50; y=450;
+		x_text=600; y_text=50;
+		vSpace=5;
+		vTextAdjustment=15;
+
+		var c = document.getElementById("myCanvas1");
+		var ctx;
+		ctx = c.getContext("2d");
+		ctx.strokeStyle="#000000";
+		ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(800-x, y); ctx.stroke(); ctx.closePath();
+		ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y-400); ctx.stroke(); ctx.closePath();
+		ctx.font = "12px Arial";
+
+		var barHeight=20;
+		var barWidth=[100, 200, 300, 400, 500, 100, 200, 300, 400, 1000, 50, 60, 70, 80, 90];
+		var barDescription=["Desc 1", "Desc 2", "Desc 3", "Desc 4", "Desc 5", "Desc 6", "Desc 7", "Desc 8", "Desc 9", "Desc10", 
+		                    "Desc A", "Desc B", "Desc C", "Desc D", "Desc E"];
+		var x_init=x;
+		var y_init=y-barHeight;
+		var vTotal=0;
+		var i=0;
+		var vTemp;
+
+		for(i=0; i<barWidth.length;i++) { vTotal+=barWidth[i]; }
+
+		for(i=0; i<barWidth.length;i++) {
+			vTemp = barWidth[i]/vTotal*y;
+			ctx.fillStyle=getRandomColor();
+			ctx.beginPath(); 
+			ctx.fillRect(x_init, y_init-(i*barHeight), vTemp, barHeight); 
+			ctx.strokeRect(x_init, y_init-(i*barHeight), vTemp, barHeight);
+			ctx.fillRect(x_text, y_text+(i*barHeight), barHeight, barHeight); 
+			ctx.strokeRect(x_text, y_text+(i*barHeight), barHeight, barHeight); 
+			ctx.closePath();
+
+			ctx.fillStyle="#000000"; 
+			ctx.fillText(barDescription[i], x_init+vTemp+vSpace+(barDescription[i].length), y_init-(i*barHeight)+vTextAdjustment );
+			ctx.fillText(barDescription[i], x_text+barHeight+vSpace, y_text+(i*barHeight)+vTextAdjustment );
+		}
+
+
+
+	</script>
+</body>
+</html>
